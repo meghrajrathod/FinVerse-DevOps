@@ -13,7 +13,8 @@ namespace FinVerse.API.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public UserController(ApplicationDbContext context)
+        public UserController(
+            ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,7 +23,8 @@ namespace FinVerse.API.Controllers
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var email = User.FindFirstValue(
+                ClaimTypes.Email);
 
             if (email == null)
             {
@@ -30,21 +32,22 @@ namespace FinVerse.API.Controllers
             }
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(x => x.Email == email);
+                .FirstOrDefaultAsync(
+                    x => x.Email == email);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            var response = new UserDto
+            var profile = new ProfileDto
             {
                 FullName = user.FullName,
                 Email = user.Email,
                 Balance = user.Balance
             };
 
-            return Ok(response);
+            return Ok(profile);
         }
     }
 }
