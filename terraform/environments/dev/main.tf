@@ -14,6 +14,14 @@ module "public_subnet" {
   subnet_name       = "finverse-public-subnet"
 }
 
+module "public_subnet_2" {
+  source = "../../modules/subnet"
+  vpc_id            = module.vpc.vpc_id
+  subnet_cidr       = "10.0.3.0/24"
+  availability_zone = "us-east-1b"
+  subnet_name = "finverse-public-subnet-2"
+}
+
 module "internet_gateway" {
   source = "../../modules/internet-gateway"
 
@@ -24,10 +32,16 @@ module "internet_gateway" {
 module "public_route_table" {
   source = "../../modules/route-table"
 
-  vpc_id          = module.vpc.vpc_id
-  igw_id          = module.internet_gateway.igw_id
-  subnet_id       = module.public_subnet.subnet_id
+  vpc_id           = module.vpc.vpc_id
+  igw_id           = module.internet_gateway.igw_id
+  subnet_id        = module.public_subnet.subnet_id
   route_table_name = "finverse-public-rt"
+}
+
+resource "aws_route_table_association" "public_subnet_2_association" {
+
+  subnet_id      = module.public_subnet_2.subnet_id
+  route_table_id = module.public_route_table.route_table_id
 }
 
 module "security_group" {
