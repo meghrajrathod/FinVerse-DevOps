@@ -156,5 +156,74 @@ public async Task<IActionResult> Withdraw(
         balance = user.Balance
     });
 }
+
+[Authorize]
+[HttpPost("transfer")]
+public async Task<IActionResult> Transfer(
+    TransferDto dto)
+{
+    if (dto.Amount <= 0)
+    {
+        return BadRequest(
+            "Invalid amount.");
+    }
+
+    var senderEmail = User
+        .FindFirst(ClaimTypes.Email)?.Value;
+
+    if (senderEmail == null)
+    {
+        return Unauthorized();
+    }
+
+    if (senderEmail == dto.ReceiverEmail)
+    {
+        return BadRequest(
+            "Cannot transfer to yourself.");
+    }
+
+    var sender = await _context.Users
+        .FirstOrDefaultAsync(x =>
+            x.Email == senderEmail);
+
+    var receiver = await _context.Users
+        .FirstOrDefaultAsync(x =>
+            x.Email == dto.ReceiverEmail);
+
+    if (sender == null || receiver == null)
+    {
+        return BadRequest(
+            "Invalid user.");
+    }
+
+    if (sender.Balance < dto.Amount)
+    {
+        return BadRequest(
+            "Insufficient balance.");
+    }
+
+    sender.Balance -= dto.Amount;
+
+    receiver.Balance += dto.Amount;
+
+    var transaction = new Transaction
+    {
+        SenderEmail = senderEmail,
+        ReceiverEmail = dto.ReceiverEmail,
+        Amount = dto.Amount,
+        TransactionType = "Transfer",
+        Status = "Completed"
+    };
+
+    _context.Transactions.Add(transaction);
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new
+    {
+        message = "Transfer successful",
+        senderBalance = sender.Balance
+    });
+}
     }
 }
