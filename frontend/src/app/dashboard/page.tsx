@@ -1,5 +1,7 @@
 "use client";
 
+import Sidebar from "../../components/ui/Sidebar";
+
 export default function DashboardPage() {
 
   return (
@@ -8,36 +10,7 @@ export default function DashboardPage() {
       <div className="flex">
 
         {/* Sidebar */}
-
-        <div className="w-64 min-h-screen bg-slate-900 border-r border-slate-800 p-6">
-
-          <h1 className="text-3xl font-bold text-blue-400 mb-10">
-            FinVerse
-          </h1>
-
-          <div className="space-y-4">
-
-            <button className="w-full text-left bg-blue-600 px-4 py-3 rounded-xl">
-              Dashboard
-            </button>
-
-            <button className="w-full text-left hover:bg-slate-800 px-4 py-3 rounded-xl transition">
-              Transactions
-            </button>
-
-            <button className="w-full text-left hover:bg-slate-800 px-4 py-3 rounded-xl transition">
-              Transfer
-            </button>
-
-            <button className="w-full text-left hover:bg-slate-800 px-4 py-3 rounded-xl transition">
-              Deposit
-            </button>
-
-            <button className="w-full text-left hover:bg-slate-800 px-4 py-3 rounded-xl transition">
-              Withdraw
-            </button>
-          </div>
-        </div>
+        <Sidebar />
 
         {/* Main Content */}
 
