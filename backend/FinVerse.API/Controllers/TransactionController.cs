@@ -100,5 +100,61 @@ namespace FinVerse.API.Controllers
 
             return Ok(transactions);
         }
+
+        [Authorize]
+[HttpPost("withdraw")]
+public async Task<IActionResult> Withdraw(
+    WithdrawDto dto)
+{
+    if (dto.Amount <= 0)
+    {
+        return BadRequest(
+            "Invalid amount.");
+    }
+
+    var email = User
+        .FindFirst(ClaimTypes.Email)?.Value;
+
+    if (email == null)
+    {
+        return Unauthorized();
+    }
+
+    var user = await _context.Users
+        .FirstOrDefaultAsync(x =>
+            x.Email == email);
+
+    if (user == null)
+    {
+        return NotFound();
+    }
+
+    if (user.Balance < dto.Amount)
+    {
+        return BadRequest(
+            "Insufficient balance.");
+    }
+
+    user.Balance -= dto.Amount;
+
+    var transaction = new Transaction
+    {
+        SenderEmail = email,
+        ReceiverEmail = email,
+        Amount = dto.Amount,
+        TransactionType = "Withdraw",
+        Status = "Completed"
+    };
+
+    _context.Transactions.Add(transaction);
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new
+    {
+        message = "Withdraw successful",
+        balance = user.Balance
+    });
+}
     }
 }
