@@ -3,6 +3,7 @@ using FinVerse.API.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace FinVerse.API.Controllers
 {
@@ -21,7 +22,7 @@ namespace FinVerse.API.Controllers
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
-            var email = User.Identity?.Name;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
 
             if (email == null)
             {
