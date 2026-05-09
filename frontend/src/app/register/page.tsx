@@ -46,7 +46,7 @@ export default function RegisterPage() {
         password,
       });
 
-      toast.success(response);
+      toast.success("Registration successful!");
 
       console.log(response);
 

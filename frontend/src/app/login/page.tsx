@@ -8,6 +8,8 @@ import toast, { Toaster } from "react-hot-toast";
 
 import { loginUser } from "../../services/auth.service";
 
+import Cookies from "js-cookie";
+
 export default function LoginPage() {
 
   const [email, setEmail] = useState("");
@@ -29,9 +31,12 @@ export default function LoginPage() {
         password,
       });
 
-      localStorage.setItem("token", response.token);
+      Cookies.set("token", response.token, {
+  expires: 7,
+});
 
       toast.success("Login successful!");
+      window.location.href = "/dashboard";
 
       console.log(response);
 
