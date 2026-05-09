@@ -50,14 +50,14 @@ namespace FinVerse.API.Controllers
 
             user.Balance += dto.Amount;
 
-var transaction = new Transaction
-{
-    SenderEmail = email,
-    ReceiverEmail = email,
-    Amount = dto.Amount,
-    TransactionType = "Deposit",
-    Status = "Completed"
-};
+            var transaction = new Transaction
+            {
+                SenderEmail = email,
+                ReceiverEmail = email,
+                Amount = dto.Amount,
+                TransactionType = "Deposit",
+                Status = "Completed"
+            };
 
             _context.Transactions.Add(transaction);
 
@@ -68,6 +68,37 @@ var transaction = new Transaction
                 message = "Deposit successful",
                 balance = user.Balance
             });
+        }
+
+        [Authorize]
+        [HttpGet("history")]
+        public async Task<IActionResult> GetHistory()
+        {
+            var email = User
+                .FindFirst(ClaimTypes.Email)?.Value;
+
+            if (email == null)
+            {
+                return Unauthorized();
+            }
+
+            var transactions = await _context.Transactions
+                .Where(x =>
+                    x.SenderEmail == email ||
+                    x.ReceiverEmail == email)
+                .OrderByDescending(x => x.CreatedAt)
+                .Select(x => new TransactionDto
+                {
+                    SenderEmail = x.SenderEmail,
+                    ReceiverEmail = x.ReceiverEmail,
+                    Amount = x.Amount,
+                    TransactionType = x.TransactionType,
+                    Status = x.Status,
+                    CreatedAt = x.CreatedAt
+                })
+                .ToListAsync();
+
+            return Ok(transactions);
         }
     }
 }
