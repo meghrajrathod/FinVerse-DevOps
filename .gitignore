@@ -1,46 +1,67 @@
-# Visual Studio
-.vs/
-bin/
-obj/
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+.terraform.lock.hcl
 
-# User-specific files
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
+# Terraform Variables
+terraform.tfvars
+*.auto.tfvars
+
+# AWS Keys / Secrets
+*.pem
+*.key
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.production.local
 
 # Logs
-logs/
 *.log
 
-# Environment files
-.env
-.env.*
-
-# Node modules
+# Node.js
 node_modules/
+.next/
+out/
+frontend/dev/
+
+# .NET
+bin/
+obj/
+Debug/
+Release/
 
 # Docker
 docker-data/
 
-# Terraform
-*.tfstate
-*.tfstate.*
-.terraform/
-
-# Ansible
-*.retry
-
-# OS generated files
-Thumbs.db
-.DS_Store
-
-# IDE
+# VS Code / IDE
 .vscode/
 .idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Build Artifacts
+dist/
+build/
 
 # Coverage
 coverage/
 
-# Secrets
-secrets/
+# Temporary Files
+*.tmp
+*.temp
+
+# Package Managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Misc
+*.bak
+*.swp
