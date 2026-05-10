@@ -2,23 +2,29 @@
 
 import { useState } from "react";
 
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock }
+from "lucide-react";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast, { Toaster }
+from "react-hot-toast";
 
-import { loginUser } from "../../services/auth.service";
-
-import Cookies from "js-cookie";
+import { loginUser }
+from "../../services/auth.service";
 
 export default function LoginPage() {
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] =
+    useState("");
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] =
+    useState("");
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (
+    e: React.FormEvent
+  ) => {
 
     e.preventDefault();
 
@@ -26,24 +32,33 @@ export default function LoginPage() {
 
       setLoading(true);
 
-      const response = await loginUser({
-        email,
-        password,
-      });
+      const response =
+        await loginUser({
+          email,
+          password,
+        });
 
-      Cookies.set("token", response.token, {
-  expires: 7,
-});
+      localStorage.setItem(
+  "token",
+  response.token || response.Token
+);
 
-      toast.success("Login successful!");
-      window.location.href = "/dashboard";
+      toast.success(
+        "Login successful!"
+      );
 
       console.log(response);
 
+      window.location.href =
+        "/dashboard";
+
     } catch (error: any) {
 
+      console.log(error);
+
       toast.error(
-        error?.response?.data || "Login failed"
+        error?.response?.data ||
+        "Login failed"
       );
 
     } finally {
@@ -90,7 +105,9 @@ export default function LoginPage() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) =>
-                  setEmail(e.target.value)
+                  setEmail(
+                    e.target.value
+                  )
                 }
                 className="w-full bg-slate-900/60 border border-slate-700 text-white rounded-xl py-3 pl-11 pr-4 outline-none focus:border-blue-500 transition"
               />
@@ -112,7 +129,9 @@ export default function LoginPage() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) =>
-                  setPassword(e.target.value)
+                  setPassword(
+                    e.target.value
+                  )
                 }
                 className="w-full bg-slate-900/60 border border-slate-700 text-white rounded-xl py-3 pl-11 pr-4 outline-none focus:border-blue-500 transition"
               />
@@ -124,7 +143,9 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-3 rounded-xl"
           >
-            {loading ? "Signing In..." : "Sign In"}
+            {loading
+              ? "Signing In..."
+              : "Sign In"}
           </button>
         </form>
       </div>
