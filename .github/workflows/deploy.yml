@@ -27,10 +27,6 @@ jobs:
 
           script: |
 
-            cd ~/FinVerse-DevOps
+  cd ~/FinVerse-DevOps
 
-            git pull
-
-            docker compose down
-
-            docker compose up --build -d
+  ./scripts/deploy.sh
