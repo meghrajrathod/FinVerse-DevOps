@@ -116,7 +116,7 @@ resource "aws_security_group" "finverse_sg" {
 
 resource "aws_instance" "finverse_server" {
 
-  ami                    = "ami-091138d0f0d41ff90"
+  ami                    = "ami-0c02fb55956c7d316"
 
   instance_type          = var.instance_type
 
