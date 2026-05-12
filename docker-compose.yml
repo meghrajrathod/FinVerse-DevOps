@@ -1,42 +1,79 @@
 services:
 
   postgres-db:
+
     image: postgres:17
 
     container_name: finverse-postgres
 
     environment:
+
       POSTGRES_USER: postgres
+
       POSTGRES_PASSWORD: postgres123
+
       POSTGRES_DB: finverse_db
 
     ports:
+
       - "5432:5432"
 
     volumes:
+
       - postgres_data:/var/lib/postgresql/data
 
     healthcheck:
+
       test: ["CMD-SHELL", "pg_isready -U postgres"]
+
       interval: 5s
+
       timeout: 5s
+
       retries: 10
 
   finverse-api:
+
     build:
+
       context: ./backend/FinVerse.API
 
     container_name: finverse-api
 
     depends_on:
+
       postgres-db:
+
         condition: service_healthy
 
     ports:
+
       - "8080:8080"
 
     environment:
+
       ConnectionStrings__DefaultConnection: Host=postgres-db;Port=5432;Database=finverse_db;Username=postgres;Password=postgres123
 
+  finverse-frontend:
+
+    build:
+
+      context: ./frontend
+
+    container_name: finverse-frontend
+
+    depends_on:
+
+      - finverse-api
+
+    ports:
+
+      - "3000:3000"
+
+    environment:
+
+      NEXT_PUBLIC_API_URL: http://localhost:8080/api
+
 volumes:
+
   postgres_data:
