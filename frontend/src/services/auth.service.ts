@@ -16,7 +16,7 @@ export const loginUser = async (
 ) => {
 
   const response = await api.post(
-    "/auth/login",
+    "/Auth/login",
     data
   );
 
@@ -28,7 +28,7 @@ export const registerUser = async (
 ) => {
 
   const response = await api.post(
-    "/auth/register",
+    "/Auth/register",
     data
   );
 
