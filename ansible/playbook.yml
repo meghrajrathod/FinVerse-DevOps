@@ -74,7 +74,7 @@
 
     - name: Start Docker Containers
 
-      shell: docker-compose up --build -d
+      shell: docker compose up -d
 
       args:
 
