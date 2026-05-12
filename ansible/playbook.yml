@@ -7,75 +7,55 @@
   tasks:
 
     - name: Update packages
-
       yum:
-
         name: "*"
-
         state: latest
 
     - name: Install Git
-
       yum:
-
         name: git
-
         state: present
 
     - name: Install Docker
-
       yum:
-
         name: docker
-
         state: present
 
     - name: Start Docker
-
       service:
-
         name: docker
-
         state: started
-
         enabled: true
 
     - name: Add ec2-user to docker group
-
       user:
-
         name: ec2-user
-
         groups: docker
-
         append: yes
 
-    - name: Install Docker Compose
+    - name: Download Docker Compose
+      command: curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
 
-      shell: |
+    - name: Set Docker Compose Permission
+      file:
+        path: /usr/local/bin/docker-compose
+        mode: '0755'
 
-        curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-
-        chmod +x /usr/local/bin/docker-compose
-
-        ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
+    - name: Create Docker Compose Symlink
+      file:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
+        state: link
+        force: yes
 
     - name: Clone FinVerse Repository
-
       git:
-
         repo: https://github.com/meghrajrathod/FinVerse-DevOps.git
-
         dest: /home/ec2-user/FinVerse-DevOps
-
         version: master
-
         force: yes
 
     - name: Start Docker Containers
-
-      shell: docker-compose up -d
-
+      command: docker-compose up -d
       args:
-
         chdir: /home/ec2-user/FinVerse-DevOps
