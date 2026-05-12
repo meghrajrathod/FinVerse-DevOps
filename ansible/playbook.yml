@@ -59,3 +59,23 @@
         dest: /usr/local/bin/docker-compose
 
         mode: '0755'
+
+    - name: Clone FinVerse Repository
+
+      git:
+
+        repo: https://github.com/meghrajrathod/FinVerse-DevOps.git
+
+        dest: /home/ec2-user/FinVerse-DevOps
+
+        version: master
+
+        force: yes
+
+    - name: Start Docker Containers
+
+      shell: |
+
+        cd /home/ec2-user/FinVerse-DevOps
+
+        docker compose up --build -d
