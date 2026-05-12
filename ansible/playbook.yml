@@ -74,8 +74,8 @@
 
     - name: Start Docker Containers
 
-      shell: |
+      shell: docker compose up --build -d
 
-        cd /home/ec2-user/FinVerse-DevOps
+      args:
 
-        docker compose up --build -d
+        chdir: /home/ec2-user/FinVerse-DevOps
