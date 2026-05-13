@@ -10,20 +10,20 @@ namespace FinVerse.API.Services
         private readonly AmazonS3Client _s3Client;
 
         public S3Service(IConfiguration configuration)
-        {
-            _configuration = configuration;
+{
+    _configuration = configuration;
 
-            var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
-            var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
+    var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
+    var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
 
-                var config = new AmazonS3Config
+    var config = new AmazonS3Config
     {
         RegionEndpoint = RegionEndpoint.USEast1,
         ForcePathStyle = true
     };
 
-            _s3Client = new AmazonS3Client(accessKey, secretKey, region);
-        }
+    _s3Client = new AmazonS3Client(accessKey, secretKey, config);
+}
 
         public async Task<string> UploadFileAsync(IFormFile file)
         {
