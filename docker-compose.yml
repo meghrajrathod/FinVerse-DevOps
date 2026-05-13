@@ -13,9 +13,7 @@ services:
       - "8080:8080"
 
     environment:
-      ConnectionStrings__DefaultConnection: Host=finverse-db-1.c4v6wisem889.us-east-1.rds.amazonaws.com;Port=5432;Database=finverse_db;Username=postgres;Password=pcu6V5B4HeDgVqz;SSL Mode=Require;Trust Server Certificate=true
-      AWS_ACCESS_KEY_ID: YOUR_ACCESS_KEY
-      AWS_SECRET_ACCESS_KEY: YOUR_SECRET_KEY
+      ConnectionStrings__DefaultConnection: Host=finverse-db-1.c4v6wisem889.us-east-1.rds.amazonaws.com;Port=5432;Database=finverse_db;Username=postgres;Password=YOUR_RDS_PASSWORD;SSL Mode=Require;Trust Server Certificate=true
 
   finverse-frontend:
 
