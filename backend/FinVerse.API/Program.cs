@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -91,6 +92,8 @@ builder.Services.AddSwaggerGen(options =>
             }
         });
 });
+
+builder.Services.AddScoped<S3Service>();
 
 var app = builder.Build();
 
