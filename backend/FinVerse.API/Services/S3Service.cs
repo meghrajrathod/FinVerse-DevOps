@@ -18,7 +18,7 @@ namespace FinVerse.API.Services
 
     var config = new AmazonS3Config
     {
-        RegionEndpoint = RegionEndpoint.USEast1,
+        RegionEndpoint = RegionEndpoint.ap-south-1,
         ForcePathStyle = true
     };
 
